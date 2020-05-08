@@ -1,13 +1,15 @@
 console.log("app")
 
 //input form reactive 
-let angalware_data_store={
-
-};
+let angalware_data_store = {},
 //input reactive check
-let element_checked=false;
+element_checked = false,
 //input reactive setup
-let element_name='';
+  element_name = '',
+	obj_check_list = [],
+	ready_check_list = {};
+
+
 //iframe init
 let iframeWindow;
 let components=[
@@ -55,7 +57,11 @@ components.forEach(element => {
 });
 
 //data watch
-rstate((data)=>{
+rstate((state,data)=>{
+  if(state){
+//console.log(default state)
+  }
+  
   console.log(JSON.stringify(data));
   console.log(iframeWindow)
 css(iframeWindow.getElementById("style_editor"),data)
@@ -141,62 +147,131 @@ function create_element(element,inner="",attribute_array,append){
 
 
 
-function rstate(fn){
+// function rstate(fn){
 
 
 
-let myNode=document.querySelectorAll('*[angalware]');
+// let myNode=document.querySelectorAll('*[angalware]');
 
 
 
 
-myNode.forEach(element => {
+// myNode.forEach(element => {
  
 
- if(element.type!="radio"&&element.type!="checkbox")
-    angalware_data_store[element.getAttribute("angalware")]=element.value,
-    watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
- else
-   if(element.checked)
-   element_checked=true,
-   element_name=element.getAttribute("angalware"),
-   angalware_data_store[element.getAttribute("angalware")]=element.value,
-   watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
+//  if(element.type!="radio"&&element.type!="checkbox")
+//     angalware_data_store[element.getAttribute("angalware")]=element.value,
+//     watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
+//  else
+//    if(element.checked)
+//    element_checked=true,
+//    element_name=element.getAttribute("angalware"),
+//    angalware_data_store[element.getAttribute("angalware")]=element.value,
+//    watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
 
-   else
-    if(!element_checked&&element_name!=element.getAttribute("angalware"))
-    angalware_data_store[element.getAttribute("angalware")]="",
-    watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
-    else
-       element_name="",
-       element_checked=false;
+//    else
+//     if(!element_checked&&element_name!=element.getAttribute("angalware"))
+//     angalware_data_store[element.getAttribute("angalware")]="",
+//     watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
+//     else
+//        element_name="",
+//        element_checked=false;
 
       
 
-      });//end loop
+//       });//end loop
 
-      angalware_data_store.paper_size="letter";
-      // angalware_data_store.paper_height=937;
-      console.log(angalware_data_store.paper_width);
-      console.log("changed data")
+//       angalware_data_store.paper_size="letter";
+//       // angalware_data_store.paper_height=937;
+//       console.log(angalware_data_store.paper_width);
+//       console.log("changed data")
 
 
-fn(angalware_data_store);
-document.addEventListener('input',(e)=>{
+// fn(angalware_data_store);
+// document.addEventListener('input',(e)=>{
 
     
-    angalware_data_store[e.target.getAttribute('angalware')]=e.target.value;
-    fn(angalware_data_store)
+//     angalware_data_store[e.target.getAttribute('angalware')]=e.target.value;
+//     fn(angalware_data_store)
 
 
-    // if(angalware_data_store[]=="")
+//     // if(angalware_data_store[]=="")
 
-  })
+//   })
     
     
 
 
+// }
+
+function rstate(fn) {
+	let myNode = document.querySelectorAll('*[angalware]');
+
+	//set default value
+	myNode.forEach(element => {
+
+		let custom_attribute = element.getAttribute("angalware");
+		obj_check_list.push(custom_attribute);
+		obj_check_list.forEach(x => ready_check_list[x] = (ready_check_list[x] || 0) + 1);
+		// console.log(ready_check_list)
+		if (ready_check_list[custom_attribute] == 1)
+			watching(angalware_data_store, element.getAttribute("angalware"), element.value, (obj, set_val) => {
+				data_bind(obj, set_val);
+			});
+
+		if (element.type != "radio" && element.type != "checkbox")
+			angalware_data_store[element.getAttribute("angalware")] = element.value;
+		else
+		if (element.checked) {
+			element_checked = true;
+			element_name = element.getAttribute("angalware");
+			angalware_data_store[element.getAttribute("angalware")] = element.value;
+		} else
+		if (!element_checked && element_name != element.getAttribute("angalware"))
+			if (ready_check_list[custom_attribute] == 1)
+				angalware_data_store[element.getAttribute("angalware")] = "";
+			else
+				element_name = "",
+				element_checked = false;
+	}); //end loop
+
+	fn(true, angalware_data_store);
+
+	document.addEventListener('input', (e) => {
+		fn(false, angalware_data_store)
+		angalware_data_store[e.target.getAttribute('angalware')] = e.target.value;
+
+
+	})
 }
+//data bind to input by watchin while set the value
+function data_bind(angalware, value) {
+	
+	validation();
+
+	let options = [];
+	let myNode = document.querySelectorAll('*[angalware]');
+	myNode.forEach(element => {
+		if (element.getAttribute("angalware") == angalware) {
+			if (element.getAttribute("type") != "radio" && element.getAttribute("type") != "checkbox" && element.tagName != "SELECT")
+				element.value = value;
+			if (element.getAttribute("type") == "radio" && element.getAttribute("value") == value)
+				element.checked = true;
+			if (element.getAttribute("type") == "checkbox" && element.getAttribute("value") == value)
+				element.checked = true;
+			if (element.tagName == "SELECT")
+				options = element.childNodes,
+				options.forEach(el => {
+					if (el.value == value)
+						el.selected = true;
+
+				});
+		}
+
+	})
+	
+}
+
 
 //data bind to input by watchin while set the value
 function data_bind(angalware,value){
@@ -236,24 +311,27 @@ console.log(myNode)
 
 
 
+//watch data changes
+function watching(obj_parent, inside_obj, arg, watcher_set) {
 
-function watching(obj_parent,inside_obj,watcher_get,watcher_set){
-// console.log("exewath")
-Object.defineProperty(obj_parent, inside_obj, {
-  get: function (val){
-    watcher_get(inside_obj,val);
-      //some code to watch the getter function
-  },
+	Object.defineProperty(obj_parent, inside_obj, {
+		get: function () {
 
-  set: function (val) {
 
-   watcher_set(inside_obj,val)
-    //some code to watch the setter function
-  }
-})
+			return arg;
+		},
+
+		set: function (val) {
+			arg = val;
+			watcher_set(inside_obj, val)
+
+
+		}
+	})
 
 
 }
+
 
 function css(iframe,data){
 

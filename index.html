@@ -3,40 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>print</title>
-    <style id="style_editor">
-            /* .sheet { */
-  /* margin: 0; */
-  /* overflow: hidden;
-  position: relative; */
-  /* box-sizing: border-box; */
-  /* page-break-after: always; */
-/* } */
-       
-        /* @page { size: 2.95in 1.99 in } 
-    body.receipt .sheet { width: 2.95in; height: 1.99 in } 
-    @media print { body.receipt {width: 2.95in; } }  */
-
-        @page { size: 2.9527559055in 1.968503937in } 
-        /* output size */
-        body.receipt .sheet { width: 2.9527559055in; height: 1.968503937in } 
-        /* sheet size */
-        @media print { body.receipt { width: 2.9527559055in } body.receipt .sheet{ width:auto;height: auto;} } /* fix for Chrome */
-      </style>
+    <title>app</title>
 </head>
-<body class="receipt">
-    <section id="components" angalware_sheet class="sheet padding">
-      <div style="position: absolute;left:0;top:0;padding: inherit">llllll</div>
-      <div style="position: absolute;right:0;top:0;padding: inherit">rrrrrrr</div>
-      <!-- <div style="text-align: center;padding: inherit">center</div> -->
-      <!-- <div style="position: absolute;left:0;bottom:0;padding: inherit">blllll</div>
-      <div style="position: absolute;right:0;bottom:0;padding: inherit">b brrrrr</div> -->
+<style>
+* {
+    box-sizing: border-box;
+  }
+  
+  html,body{
+      width:100%;
+      height:100%;
+  }
+  .row {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  
+  }
+  
+  /* Create two equal columns that sits next to each other */
+  .column {
+    flex: 1;
+    padding: 10px;
     
-    </section>
-  </body>
-  <script>
-    //   window.print();
-  </script>
-<script src="./js/component.js"></script>
-<script src="./js/index.js"></script>
+  }
+
+
+  .toolbar {
+    flex: 30%;
+    padding: 10px;
+    
+  }
+  .editor {
+    flex: 70%;
+    padding: 10px;
+    background:lightgray;
+    
+  }
+  .w_100{
+    width:100%;
+  }
+  </style>
+  </head>
+  <body>
+  
+  <div class="row">
+    <div class="toolbar" >
+      toolbar
+      <div id="toolbar_widgets">
+        <div class="row"> 
+          <div class="column">
+          
+          <button id="print">print</button>
+          
+          </div>
+          </div>
+        <div class="row"> 
+            <div class="column">
+            <select angalware="paper_size"  id="paper_size" class="w_100">
+              <option value="custom" selected>custom</option>
+              <option value="a3">a3</option>
+            <option value="a4">a4</option>
+            <option value="a5">a5</option>
+            <option value="letter">letter</option>
+            <option value="legal">legal</option>
+        
+            <select>  
+           </div>
+          
+          </div>
+            <div class="row"> 
+              <div class="column">
+            <input angalware="paper_width" type="number" value="75" id="paper_width" placeholder="width">  
+              </div>
+              <div class="column">
+            <input angalware="paper_height" type="number" value="55" id="paper_height" placeholder="height">
+          </div>
+            </div>
+
+margin:
+<hr>
+
+          <div class="row"> 
+            <div class="column"> 
+            <input type="number" angalware="paper_margin_top" id="paper_margin_top" placeholder="margin top">  
+            </div>
+            <div class="column">
+            <input type="number" angalware="paper_margin_right" id="paper_margin_right" placeholder="margin right">
+          </div>
+          </div>
+          <div class="row"> 
+          <div class="column">
+          <input type="number" angalware="paper_margin_bottom" id="paper_margin_bottom" placeholder="margin bottom">  
+         </div>
+         <div class="column">
+          <input type="number" angalware="paper_margin_left" id="paper_margin_left"  placeholder="margin left">
+           </div>
+
+        </div>
+padding:
+<hr>
+        <div class="row"> 
+          <div class="column"> 
+          <input type="number" angalware="paper_padding_top"  id="paper_padding_top" placeholder="padding top">  
+          </div>
+          <div class="column">
+          <input type="number" angalware="paper_padding_right" id="paper_padding_right"  placeholder="padding right">
+        </div>
+        </div>
+        <div class="row"> 
+        <div class="column">
+        <input type="number" angalware="paper_padding_bottom" id="paper_padding_bottom" placeholder="padding bottom">  
+       </div>
+       <div class="column">
+        <input type="number" angalware="paper_padding_left" id="paper_padding_left"  placeholder="padding left">
+         </div>
+
+      </div>
+
+
+       </div>
+Orientation
+<hr>
+
+<div class="row">
+
+  <input type="radio" angalware="orientation1" id="orientation1" value="portrait" name="orientation" checked="true" placeholder="portrait" value="portrait">
+  <label for="male">Portrait</label><br>
+  <input type="radio" angalware="orientation1" id="orientation2" value="landscape" name="orientation" placeholder="landscape" value="landscape">
+  <label for="male">Landscape</label><br>
+  <div id="result">RESULT</div>
+
+</div>
+
+
+</div>
+
+    <div class="editor"  >
+        <iframe   frameBorder="0" src="paper.html" style="position:absolute;margin: 0 auto;width: 100%;height: 100%;" id="iframe"></iframe>
+    </div>
+  </div>
+  
+
+
+
+  <!-- <script src="./js//toolbar.js"></script> -->
+  <!-- <script src="./js//app.js"></script> -->\
+  <script src="dist/main.js"></script>
+</body>
+
 </html>
