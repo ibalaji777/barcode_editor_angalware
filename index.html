@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>print</title>
+    <style id="style_editor">
+            /* .sheet { */
+  /* margin: 0; */
+  /* overflow: hidden;
+  position: relative; */
+  /* box-sizing: border-box; */
+  /* page-break-after: always; */
+/* } */
+       
+        /* @page { size: 2.95in 1.99 in } 
+    body.receipt .sheet { width: 2.95in; height: 1.99 in } 
+    @media print { body.receipt {width: 2.95in; } }  */
+
+        @page { size: 2.9527559055in 1.968503937in } 
+        /* output size */
+        body.receipt .sheet { width: 2.9527559055in; height: 1.968503937in } 
+        /* sheet size */
+        @media print { body.receipt { width: 2.9527559055in } body.receipt .sheet{ width:auto;height: auto;} } /* fix for Chrome */
+      </style>
+</head>
+<body class="receipt">
+    <section id="components" angalware_sheet class="sheet padding">
+      <div style="position: absolute;left:0;top:0;padding: inherit">llllll</div>
+      <div style="position: absolute;right:0;top:0;padding: inherit">rrrrrrr</div>
+      <!-- <div style="text-align: center;padding: inherit">center</div> -->
+      <!-- <div style="position: absolute;left:0;bottom:0;padding: inherit">blllll</div>
+      <div style="position: absolute;right:0;bottom:0;padding: inherit">b brrrrr</div> -->
+    
+    </section>
+  </body>
+  <script>
+    //   window.print();
+  </script>
+<script src="./js/component.js"></script>
+<script src="./js/index.js"></script>
+</html>
