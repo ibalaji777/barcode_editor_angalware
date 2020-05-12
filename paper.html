@@ -4,6 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>print</title>
+    <style>
+
+      
+#pane {
+	position: absolute;
+	width: 45%;
+	height: 45%;
+	top: 20%;
+	left: 20%;
+	
+	
+	margin: 0;
+	padding: 0;
+	z-index: 99;
+	border: 2px solid purple;
+	background: #fefefe;
+}
+
+        /* .move {
+  background-color: #29e;
+  color: white;
+  font-size: 20px;
+  font-family: sans-serif;
+  border-radius: 8px;
+  padding: 20px;
+  touch-action: none;
+
+  width: 120px; */
+
+  /* This makes things *much* easier */
+  /* box-sizing: border-box;
+} */
+
+    </style>
     <style id="style_editor">
             /* .sheet { */
   /* margin: 0; */
@@ -16,16 +50,37 @@
         /* @page { size: 2.95in 1.99 in } 
     body.receipt .sheet { width: 2.95in; height: 1.99 in } 
     @media print { body.receipt {width: 2.95in; } }  */
-
-        @page { size: 2.9527559055in 1.968503937in } 
+    .sheet{ background: white;position: relative;  }
+/* //main code ----------------------------------- */
+        /* @page { size: 2.9527559055in 1.968503937in }  */
         /* output size */
-        body.receipt .sheet { width: 2.9527559055in; height: 1.968503937in } 
+        /* body.receipt .sheet { width: 2.9527559055in; height: 1.968503937in }  */
         /* sheet size */
-        @media print { body.receipt { width: 2.9527559055in } body.receipt .sheet{ width:auto;height: auto;} } /* fix for Chrome */
+        /* @media print { body.receipt { width: 2.9527559055in } body.receipt .sheet{ width:auto;height: auto;} } fix for Chrome */
+ /* main code ------------------------------- */
+     
+     
+     /* //main code ----------------------------------- */
+     /* @page { size: 75mm 55mm }  */
+        /* output size */
+        /* body.receipt .sheet { width: 75mm; height: 55mm }  */
+        /* sheet size */
+        /* @media print { body.receipt { width: 75mm } body.receipt .sheet{ width:auto;height: auto;} } fix for Chrome */
+ /* main code ------------------------------- */
+     
+     
+ /* @page { size: 75mm 55mm }  */
+ /* output size  */
+ /* body.receipt .sheet { width: 75mm; height: 55mm } */
+   /* @media print { body.receipt { width: 75mm } body.receipt .sheet{ width:auto;height: auto;} } */
+    /* fix for Chrome */     
+/* next check */
+
+@page { margin: 0; padding:0; } body { margin: 0;padding:0; } .sheet {  margin: 0;overflow: hidden;position: relative; box-sizing: border-box; page-break-after: always; } .sheet{ background: white;position: relative;  }  @page { size: 148mm 209mm } /* output size */ body.receipt .sheet { width: 148mm; height: 209mm } /* sheet size */ @media print { body.receipt { width: 148mm }  body.receipt .sheet{ width:auto;height: auto;} } /* fix for Chrome */
       </style>
 </head>
-<body class="receipt">
-    <section id="components" angalware_sheet class="sheet padding">
+<body class="receipt" style="background: green;">
+    <section id="components" angalware_sheet class="sheet padding" style="background:red">
       <div style="position: absolute;left:0;top:0;padding: inherit">llllll</div>
       <div style="position: absolute;right:0;top:0;padding: inherit">rrrrrrr</div>
       <!-- <div style="text-align: center;padding: inherit">center</div> -->
@@ -33,10 +88,21 @@
       <div style="position: absolute;right:0;bottom:0;padding: inherit">b brrrrr</div> -->
     
     </section>
+
+
+    <div id="pane">
+      <div id="title">Resize, Drag or Snap Me!</div>
+    </div>
+    <!-- <div id="ghostpane"></div> -->
+    
+
+
+
+
   </body>
   <script>
     //   window.print();
   </script>
 <script src="./src/component.js"></script>
-<script src="./src/index.js"></script>
+<script  type="module" src="./src/index.js"></script>
 </html>

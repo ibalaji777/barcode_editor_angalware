@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A4 GL-17(99.1*33.8mm)</title>
+
+    <style>
+
+@page { margin: 0 }
+body { margin: 0 }
+.sheet {
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  page-break-after: always;
+}
+
+/** Paper sizes **/
+body.receipt     .sheet { width: 210mm; height: 297mm }
+
+/** Padding area **/
+.sheet.padding { padding: 10mm }
+
+/** For screen preview **/
+@media screen {
+  body { background: #e0e0e0 }
+  .sheet {
+    background: white;
+    box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
+    margin: 5mm auto;
+  }
+}
+
+/** Fix for Chrome issue #273306 **/
+@media print {
+           body.receipt { width: 210mm }
+
+}
+.label{
+    box-sizing: border-box;
+    width: 99.1mm; 
+    height: 33.8mm;
+    border:1px solid black;
+    background: grey;
+   
+    float:left;
+}
+.label_row{
+width:100%;
+}
+
+    </style>
+
+<style>@page { size: A4 }</style>
+
+</head>
+<body class="receipt">
+    
+    <section id="components" angalware_sheet class="sheet" style="background:red">
+      
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+  </div>
+  <div class="label_rows">
+    <div class="label"> </div>
+    <div class="label"> </div>
+  </div>
+        
+        
+      </section>
+</body>
+</html>

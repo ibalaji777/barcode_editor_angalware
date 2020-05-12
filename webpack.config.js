@@ -14,7 +14,8 @@ module.exports={
     mode:'development',
     // entry:'./src/index.js',
     entry:{
-     main:'./src/app.js'
+     main:'./src/app.js',
+     page2:'./src/index.js'
     },
     output:{
       path:path.resolve(__dirname,"dist"),
@@ -29,7 +30,15 @@ module.exports={
     devServer:{
         port:3236,
         contentBase:path.join(__dirname,'')
-    }
-
+    },
+    module: {
+        rules: [
+          {
+            test: /\.js$/,
+            loader: "babel-loader",
+            exclude: /(node_modules)/
+          }
+        ]
+      }
 
 }

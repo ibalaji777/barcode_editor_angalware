@@ -1,13 +1,19 @@
 console.log("app")
+import {rstate}  from './lib/reactive_state'
+// import { createPopper } from '@popperjs/core';
 
+import {wygsiwyg} from './lib/iframe_wygsiwyg';
+
+import {dnd} from './lib/dnd_'
+import * as core from './lib/core'
 //input form reactive 
-let angalware_data_store = {},
-//input reactive check
-element_checked = false,
-//input reactive setup
-  element_name = '',
-	obj_check_list = [],
-	ready_check_list = {};
+// let angalware_data_store = {},
+// //input reactive check
+// element_checked = false,
+// //input reactive setup
+//   element_name = '',
+// 	obj_check_list = [],
+// 	ready_check_list = {};
 
 
 //iframe init
@@ -15,21 +21,30 @@ let iframeWindow;
 let components=[
 {
 type:'text',
-value:'something'
+value:'something ${name} ${age}'
 
 
 },
 {
   type:'canvas',
-  value:'something'
+  value:'something ${name} '
     
     }
 
 ]
 
+let replace_array=[
+  {
+name:'balaji'
+},
+{name:'icegirl'}
+]
 iframe.onload = function() {
     // we can get the reference to the inner window
- 
+
+    
+
+
     try {
 
       iframeWindow = iframe.contentDocument || iframe.contentWindow.document;
@@ -38,37 +53,161 @@ iframe.onload = function() {
       alert(e); // Security Error (another origin)
     }
    
+//creating ghostpahne
+
+
+
+
+
+core.dnd(iframeWindow,iframeWindow.getElementById('pane'),(x)=>{
+
+  
+  console.log(x)
+});
+
+
+core.dnd_transfer(document.getElementById('bing'),iframeWindow.getElementById('pane'))
+
+let count_loop=0;
+
+
 
 components.forEach(element => {
     
+
     // if(element.type=="text")
+
+
+    // string replace here
+var $obj={
+  // name:'balaji',
+  // age:'25',
+}
+element.value=core.replaceString(element.value,replace_array[count_loop]);
+
          create_element("div",element.value,[
              {
-               attr:'class',value:'move'
+               attr:'class',value:'move '
              },
              {
-              attr:'style',value:'cursor:move;padding:inherit'
-            }
+              attr:'style',value:'font-size:40pt;cursor:move;padding:inherit'
+            },
+
+            // {
+            //   attr:'isat_editable_content',value:'isat_editable_content'
+            // },
+
+            
+            // {
+            //   attr:'contenteditable',value:'true'
+            // }
 
          ],
          iframeWindow.getElementById("components")
          
          )
+
+         count_loop+=1;
 });
 
 //data watch
 rstate((state,data)=>{
   if(state){
 //console.log(default state)
-  }
+//defualt state
+iframeWindow.getElementById("components").addEventListener('mousedown',(e)=>{
+        
+  if(e.target.getAttribute("angalware_sheet")==null)
+          // dnd_listen(e.target);
+        console.log(e.target)  
+        dnd(e.target,iframeWindow)
+ 
+          })
   
-  console.log(JSON.stringify(data));
-  console.log(iframeWindow)
+
+
+// isat_wygsiwyg_();
+  }
+
+ //state change while input
+ 
+ const button = document.querySelector('#button');
+ const tooltip = document.querySelector('#tooltip');
+
+//  popper(button,tooltip);
+
+
+    if(data["paper_size"]=="legal")
+    {
+    
+     data["paper_width"]="216";
+     data["paper_height"]="356";
+    }
+    
+
+
+if(data["paper_size"]=="letter")
+{
+
+  data["paper_width"]="216";
+  data["paper_height"]="279";
+}
+
+
+
+
+if(data["paper_size"]=="a5")
+{
+
+  data["paper_width"]="148";
+  data["paper_height"]="209";
+
+}
+
+
+if(data["paper_size"]=="a4")
+{
+
+  data["paper_width"]="210";
+  data["paper_height"]="296";
+
+}
+
+
+
+if(data["paper_size"]=="a3")
+{
+
+
+  data["paper_width"]="297";
+  data["paper_height"]="419";
+
+
+}
+
+
+
 css(iframeWindow.getElementById("style_editor"),data)
+
+//dnd 
+console.log(iframeWindow.getElementById("components"));
+
+
 })
 
+// var iframe = document.getElementById("iframe");
+// iframe.contentWindow.editor_call("print");
 
+wygsiwyg(iframeWindow);
 
+// iframeWindow.onkeydown=(event)=>{
+//   window.designMode = "on";
+// console.log("shit")
+//   if (event.keyCode == 16) {
+//     // Execute command if user presses the SHIFT button:
+//     iframeWindow.execCommand("bold");
+//   }
+// }
 
 
 
@@ -102,245 +241,35 @@ function create_element(element,inner="",attribute_array,append){
 }
 
 
+// function popper(palce_element,tooltip){
 
-
-// defautl_value()
-
-// function defautl_value(){
-
-// // console.log(document.querySelectorAll('*[angalware]'))
-
-// let myNode=document.querySelectorAll('*[angalware]');
-
-// myNode.forEach(element => {
-//   // console.log(element.getAttribute("angalware"))
-
-//   data[element.getAttribute("angalware")]=element.value;
-
-// });
-
-
-// document.getElementById("result").innerText= JSON.stringify(data);  
-// console.log(data)
-// }
-
-
-
-// input_changes();
-// function input_changes(){
-
-
-// document.addEventListener('input',(e)=>{
-
-// // console.log(e.target.value)
-
-// data[e.target.getAttribute('angalware')]=e.target.value;
-// document.getElementById("result").innerText= JSON.stringify(data);
-// console.log(data)
-//   })
+//   createPopper(palce_element, tooltip);
 
 
 // }
 
 
-
-
-
-
-// function rstate(fn){
-
-
-
-// let myNode=document.querySelectorAll('*[angalware]');
-
-
-
-
-// myNode.forEach(element => {
- 
-
-//  if(element.type!="radio"&&element.type!="checkbox")
-//     angalware_data_store[element.getAttribute("angalware")]=element.value,
-//     watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
-//  else
-//    if(element.checked)
-//    element_checked=true,
-//    element_name=element.getAttribute("angalware"),
-//    angalware_data_store[element.getAttribute("angalware")]=element.value,
-//    watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
-
-//    else
-//     if(!element_checked&&element_name!=element.getAttribute("angalware"))
-//     angalware_data_store[element.getAttribute("angalware")]="",
-//     watching(angalware_data_store,element.getAttribute("angalware"),()=>{    },(obj,set_val)=>{   data_bind(obj,set_val) });
-//     else
-//        element_name="",
-//        element_checked=false;
-
-      
-
-//       });//end loop
-
-//       angalware_data_store.paper_size="letter";
-//       // angalware_data_store.paper_height=937;
-//       console.log(angalware_data_store.paper_width);
-//       console.log("changed data")
-
-
-// fn(angalware_data_store);
-// document.addEventListener('input',(e)=>{
-
-    
-//     angalware_data_store[e.target.getAttribute('angalware')]=e.target.value;
-//     fn(angalware_data_store)
-
-
-//     // if(angalware_data_store[]=="")
-
-//   })
-    
-    
-
-
+// function myFunction(event) {
+//   if (event.keyCode == 16) {
+//     // Execute command if user presses the SHIFT button:
+//     document.execCommand("bold");
+//   }
 // }
 
-function rstate(fn) {
-	let myNode = document.querySelectorAll('*[angalware]');
-
-	//set default value
-	myNode.forEach(element => {
-
-		let custom_attribute = element.getAttribute("angalware");
-		obj_check_list.push(custom_attribute);
-		obj_check_list.forEach(x => ready_check_list[x] = (ready_check_list[x] || 0) + 1);
-		// console.log(ready_check_list)
-		if (ready_check_list[custom_attribute] == 1)
-			watching(angalware_data_store, element.getAttribute("angalware"), element.value, (obj, set_val) => {
-				data_bind(obj, set_val);
-			});
-
-		if (element.type != "radio" && element.type != "checkbox")
-			angalware_data_store[element.getAttribute("angalware")] = element.value;
-		else
-		if (element.checked) {
-			element_checked = true;
-			element_name = element.getAttribute("angalware");
-			angalware_data_store[element.getAttribute("angalware")] = element.value;
-		} else
-		if (!element_checked && element_name != element.getAttribute("angalware"))
-			if (ready_check_list[custom_attribute] == 1)
-				angalware_data_store[element.getAttribute("angalware")] = "";
-			else
-				element_name = "",
-				element_checked = false;
-	}); //end loop
-
-	fn(true, angalware_data_store);
-
-	document.addEventListener('input', (e) => {
-		fn(false, angalware_data_store)
-		angalware_data_store[e.target.getAttribute('angalware')] = e.target.value;
-
-
-	})
-}
-//data bind to input by watchin while set the value
-function data_bind(angalware, value) {
-	
-	validation();
-
-	let options = [];
-	let myNode = document.querySelectorAll('*[angalware]');
-	myNode.forEach(element => {
-		if (element.getAttribute("angalware") == angalware) {
-			if (element.getAttribute("type") != "radio" && element.getAttribute("type") != "checkbox" && element.tagName != "SELECT")
-				element.value = value;
-			if (element.getAttribute("type") == "radio" && element.getAttribute("value") == value)
-				element.checked = true;
-			if (element.getAttribute("type") == "checkbox" && element.getAttribute("value") == value)
-				element.checked = true;
-			if (element.tagName == "SELECT")
-				options = element.childNodes,
-				options.forEach(el => {
-					if (el.value == value)
-						el.selected = true;
-
-				});
-		}
-
-	})
-	
-}
-
-
-//data bind to input by watchin while set the value
-function data_bind(angalware,value){
-let options=[];
-  let myNode=document.querySelectorAll('*[angalware]');
-console.log(myNode)
-  myNode.forEach(element => {
-
-
-    if(element.getAttribute("angalware")==angalware){
-// console.log(element.tagName)
-      if(element.getAttribute("type")=="input")
-      element.value=value;
-       if(element.getAttribute("type")=="radio"&&element.getAttribute("value")==value) 
-       element.checked=true;
-       if(element.getAttribute("type")=="checkbox"&&element.getAttribute("value")==value)
-       element.checked=true; 
-       if(element.tagName=="SELECT")
-       options=element.childNodes,
-       console.log(options),    
-       options.forEach(el => {
-            if(el.value==value)
-              el.selected=true;
-
-          });
-    }
-
-
-
-
-  })
-
-
-
-
-}
-
-
-
-//watch data changes
-function watching(obj_parent, inside_obj, arg, watcher_set) {
-
-	Object.defineProperty(obj_parent, inside_obj, {
-		get: function () {
-
-
-			return arg;
-		},
-
-		set: function (val) {
-			arg = val;
-			watcher_set(inside_obj, val)
-
-
-		}
-	})
-
-
-}
 
 
 function css(iframe,data){
 
+  // body.receipt .sheet{ width:auto;height: auto;} 
+  // 
+  let css_paper_width_and_height="@page { margin: 0 } body { margin: 0 } .sheet { margin: 0; overflow: hidden; position: relative; box-sizing: border-box; page-break-after: always; } /** Paper sizes **/ body.receipt               .sheet { width: "+parseFloat(data.paper_width||0)+"mm; height: "+parseFloat(data.paper_height||0)+"mm } /** Padding area **/ .sheet.padding { padding: 10mm } /** For screen preview **/ @media screen { body { background: #e0e0e0 } .sheet { background: white; box-shadow: 0 .5mm 2mm rgba(0,0,0,.3); margin: 5mm auto; } } /** Fix for Chrome issue #273306 **/ @page { size: "+parseFloat(data.paper_width||0)+"mm "+parseFloat(data.paper_height||0)+"mm   }   @media print { body.receipt { width: "+parseFloat(data.paper_width||0)+"mm } }",
 
-  let css_paper_width_and_height=" .sheet{ background: white;position: relative;  } .sheet.padding {box-sizing: border-box; margin:"+parseFloat(data.paper_margin_top||0)+"mm;   padding-top: "+parseFloat(data.paper_padding_top||0)+"mm;padding-right: "+parseFloat(data.paper_padding_right||0)+"mm;padding-bottom: "+parseFloat(data.paper_padding_bottom||0)+"mm;padding-left: "+parseFloat(data.paper_padding_left||0)+"mm  }  @page { size: "+parseFloat(data.paper_width||0)+"mm "+parseFloat(data.paper_height||0)+"mm } /* output size */ body.receipt .sheet { width: "+parseFloat(data.paper_width||0)+"mm; height: "+parseFloat(data.paper_height||0)+"mm } /* sheet size */ @media print { body.receipt { width: "+parseFloat(data.paper_width||0)+"mm } body.receipt .sheet{ width:auto;height: auto;} } /* fix for Chrome */",
-   css_margin="",
+  // let css_paper_width_and_height=".sheet.padding {box-sizing: border-box;   padding-top: "+parseFloat(data.paper_padding_top||0)+"mm;padding-right: "+parseFloat(data.paper_padding_right||0)+"mm;padding-bottom: "+parseFloat(data.paper_padding_bottom||0)+"mm;padding-left: "+parseFloat(data.paper_padding_left||0)+"mm  }   @page { margin: 0 }  body { margin: 0 }.sheet {   margin: 0;overflow: hidden;  position: relative; box-sizing: border-box; page-break-after: always;  } @media screen {    body { background: #e0e0e0 } .sheet {   background: white;      box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);  margin: 5mm auto; }}   @page { margin: 0; padding:0; } body { margin: 0;padding:0; } .sheet {  margin: 0;overflow: hidden;position: relative; box-sizing: border-box; page-break-after: always; } .sheet{ background: white;position: relative;  }  @page { size: "+parseFloat(data.paper_width||0)+"mm "+parseFloat(data.paper_height||0)+"mm  } /* output size */ body.receipt .sheet { width: "+parseFloat(data.paper_width||0)+"mm; height: "+parseFloat(data.paper_height||0)+"mm } /* sheet size */ @media print { body.receipt { width: "+parseFloat(data.paper_width||0)+"mm }  } /* fix for Chrome */ ",
+
+  css_margin="",
    css_padding="";
 
-   console.log(css_paper_width_and_height)
+  //  console.log(css_paper_width_and_height)
   //  console.log(css_paper_width_and_height)
 
 
@@ -372,6 +301,7 @@ function css(iframe,data){
 
 
 //append
+
 
 
 

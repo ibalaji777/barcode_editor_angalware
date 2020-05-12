@@ -1,17 +1,6 @@
-
-
-//     document.getElementById("components").addEventListener('mousedown',(e)=>{
-        
-// if(e.target.getAttribute("angalware_sheet")==null)
-//         dnd_listen(e.target);
-         
-//         })
-    
-
-
-// dnd 
-function dnd_listen(dnd){
-    // removeSelection();
+//dnd 
+export function dnd_listen(dnd){
+    removeSelection();
     dnd.onmousedown = function(event) { 
       pauseEvent(event);
         dnd.style.position = 'absolute';
@@ -58,6 +47,7 @@ function pauseEvent(e){
     }
     
 
+    
     function removeSelection(){
 
         if (window.getSelection) {
@@ -70,16 +60,3 @@ function pauseEvent(e){
             document.selection.empty();
           }
     }
-
-
-// window.print();
-
-window.editor_call = function(arg) {
- 
-if(arg=="print")
-  window.print();
-
-
-// function click_button_inside_frame() {
-//    document.getElementById('frame_button').click();
-}
